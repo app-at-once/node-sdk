@@ -1,0 +1,62 @@
+import { HttpClient } from '../core/http-client';
+import { AuthUser, AuthSession, SignUpCredentials, SignInCredentials } from '../types';
+import { OAuthProvider, OAuthInitiateResponse, OAuthCallbackData, ConnectedProvidersResponse, OAuthLinkOptions, OAuthLinkResult, OAuthUnlinkResult, OAuthFlowOptions, OAuthTokenRefreshOptions, OAuthTokenRefreshResponse } from '../types/oauth';
+export declare class AuthModule {
+    private httpClient;
+    private currentUser;
+    private currentSession;
+    private oauthModule;
+    constructor(httpClient: HttpClient);
+    signUp(credentials: SignUpCredentials): Promise<AuthSession>;
+    signIn(credentials: SignInCredentials): Promise<AuthSession>;
+    signOut(): Promise<void>;
+    refreshSession(): Promise<AuthSession>;
+    getCurrentUser(): Promise<AuthUser | null>;
+    updateUser(updates: Partial<AuthUser>): Promise<AuthUser>;
+    changePassword(currentPassword: string, newPassword: string): Promise<void>;
+    resetPassword(email: string): Promise<void>;
+    confirmResetPassword(token: string, newPassword: string): Promise<void>;
+    sendEmailVerification(): Promise<void>;
+    verifyEmail(token: string): Promise<void>;
+    getUserSessions(): Promise<Array<{
+        id: string;
+        ip_address: string;
+        user_agent: string;
+        created_at: string;
+        last_active: string;
+    }>>;
+    revokeSession(sessionId: string): Promise<void>;
+    revokeAllSessions(): Promise<void>;
+    enableMFA(): Promise<{
+        secret: string;
+        qr_code: string;
+    }>;
+    verifyMFA(code: string): Promise<void>;
+    disableMFA(password: string): Promise<void>;
+    generateBackupCodes(): Promise<{
+        codes: string[];
+    }>;
+    getUser(): AuthUser | null;
+    getSession(): AuthSession | null;
+    isAuthenticated(): boolean;
+    isSessionExpired(): boolean;
+    private authStateListeners;
+    onAuthStateChange(callback: (event: string, session: AuthSession | null) => void): () => void;
+    private notifyAuthStateChange;
+    private startAutoRefresh;
+    initiateOAuth(provider: OAuthProvider, options?: Omit<OAuthFlowOptions, 'action'>): Promise<OAuthInitiateResponse>;
+    handleOAuthCallback(provider: OAuthProvider, code: string, state: string): Promise<AuthSession>;
+    signInWithProvider(provider: OAuthProvider, redirectUrl?: string): Promise<OAuthInitiateResponse>;
+    completeOAuthSignIn(callbackData: OAuthCallbackData): Promise<AuthSession>;
+    linkOAuthProvider(provider: OAuthProvider, code: string, state: string): Promise<OAuthLinkResult>;
+    initiateLinkProvider(provider: OAuthProvider, options?: OAuthLinkOptions): Promise<OAuthInitiateResponse>;
+    unlinkOAuthProvider(provider: OAuthProvider): Promise<OAuthUnlinkResult>;
+    getConnectedProviders(): Promise<ConnectedProvidersResponse>;
+    refreshOAuthToken(options: OAuthTokenRefreshOptions): Promise<OAuthTokenRefreshResponse>;
+    generateOAuthURL(provider: OAuthProvider, redirectUrl?: string): Promise<string>;
+    isProviderConnected(provider: OAuthProvider): Promise<boolean>;
+    getProviderInfo(provider: OAuthProvider): Promise<import("../types").ConnectedOAuthProvider | null>;
+    unlinkMultipleProviders(providers: OAuthProvider[]): Promise<OAuthUnlinkResult[]>;
+    getAvailableProviders(): Promise<OAuthProvider[]>;
+    completeProviderLinking(callbackData: OAuthCallbackData): Promise<OAuthLinkResult>;
+}

@@ -1,0 +1,76 @@
+import { QueryResult } from '../types';
+import { HttpClient } from './http-client';
+export declare class QueryBuilder<T = any> {
+    private httpClient;
+    private tableName;
+    private selectFields;
+    private whereFilters;
+    private orderByFields;
+    private joinClauses;
+    private limitValue?;
+    private offsetValue?;
+    private groupByFields;
+    private havingFilters;
+    constructor(httpClient: HttpClient, tableName: string);
+    select(...fields: string[]): this;
+    where(field: string, operator: string, value: any): this;
+    eq(field: string, value: any): this;
+    ne(field: string, value: any): this;
+    gt(field: string, value: any): this;
+    gte(field: string, value: any): this;
+    lt(field: string, value: any): this;
+    lte(field: string, value: any): this;
+    like(field: string, value: string): this;
+    ilike(field: string, value: string): this;
+    in(field: string, values: any[]): this;
+    notIn(field: string, values: any[]): this;
+    isNull(field: string): this;
+    isNotNull(field: string): this;
+    between(field: string, min: any, max: any): this;
+    notBetween(field: string, min: any, max: any): this;
+    orderBy(field: string, direction?: 'asc' | 'desc'): this;
+    join(table: string, on: string, type?: 'inner' | 'left' | 'right' | 'full'): this;
+    leftJoin(table: string, on: string): this;
+    rightJoin(table: string, on: string): this;
+    innerJoin(table: string, on: string): this;
+    fullJoin(table: string, on: string): this;
+    limit(count: number): this;
+    offset(count: number): this;
+    groupBy(...fields: string[]): this;
+    having(field: string, operator: string, value: any): this;
+    paginate(page: number, pageSize?: number): this;
+    execute(): Promise<QueryResult<T>>;
+    first(): Promise<T | null>;
+    count(): Promise<number>;
+    exists(): Promise<boolean>;
+    insert(data: Partial<T>): Promise<T>;
+    insertMany(data: Partial<T>[]): Promise<T[]>;
+    update(data: Partial<T>): Promise<T[]>;
+    upsert(data: Partial<T>, conflictFields?: string[]): Promise<T>;
+    delete(): Promise<{
+        count: number;
+    }>;
+    search(query: string, options?: {
+        fields?: string[];
+        highlight?: boolean;
+        limit?: number;
+    }): Promise<QueryResult<T>>;
+    analytics(options: {
+        metrics: string[];
+        dimensions?: string[];
+        timeRange?: {
+            start: Date;
+            end: Date;
+        };
+        interval?: string;
+        realtime?: boolean;
+    }): Promise<any[]>;
+    aggregate(functions: string[]): Promise<any>;
+    sum(field: string): Promise<number>;
+    avg(field: string): Promise<number>;
+    min(field: string): Promise<any>;
+    max(field: string): Promise<any>;
+    private buildQueryOptions;
+    private buildQueryParams;
+    clone(): QueryBuilder<T>;
+}
