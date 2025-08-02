@@ -1,0 +1,54 @@
+{
+  "name": "@appatonce/node-sdk-examples",
+  "version": "2.0.0",
+  "description": "Example applications and test suites for AppAtOnce Node.js SDK",
+  "main": "comprehensive-test.js",
+  "scripts": {
+    "test": "node comprehensive-test.js",
+    "test:comprehensive": "node comprehensive-test.js",
+    "test:search": "node search-test.js",
+    "test:realtime": "node realtime-test.js",
+    "test:new-features": "node new-features-example.js",
+    "test:oauth": "tsx project-oauth-example.ts",
+    "test:all": "npm run test:comprehensive && npm run test:search && npm run test:realtime && npm run test:new-features",
+    "start": "node comprehensive-test.js",
+    "dev": "npm run test:comprehensive",
+    "examples": "echo 'Available examples:' && echo '- npm run test:comprehensive (Basic CRUD and queries)' && echo '- npm run test:search (Search functionality)' && echo '- npm run test:realtime (Real-time features)' && echo '- npm run test:new-features (v2.0 features)' && echo '- npm run test:oauth (OAuth integration)' && echo '- npm run test:all (Run all tests)'"
+  },
+  "keywords": [
+    "appatonce",
+    "examples",
+    "tutorials",
+    "sdk",
+    "backend",
+    "database",
+    "realtime",
+    "ai",
+    "storage"
+  ],
+  "author": "AppAtOnce Team",
+  "license": "MIT",
+  "dependencies": {
+    "@appatonce/node-sdk": "file:../",
+    "dotenv": "^16.3.1"
+  },
+  "_notes": {
+    "sdk_dependency": "When published, change '@appatonce/node-sdk': 'file:../' to '@appatonce/node-sdk': '^2.0.0'"
+  },
+  "devDependencies": {
+    "tsx": "^4.6.0",
+    "@types/node": "^20.0.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/appatonce/node-sdk",
+    "directory": "examples"
+  },
+  "bugs": {
+    "url": "https://github.com/appatonce/node-sdk/issues"
+  },
+  "homepage": "https://docs.appatonce.com/examples"
+}

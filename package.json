@@ -1,0 +1,42 @@
+{
+  "name": "@appatonce/node-sdk",
+  "version": "2.0.0",
+  "description": "Official Node.js SDK for AppAtOnce - The revolutionary unified backend platform",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "keywords": [
+    "appatonce",
+    "backend",
+    "database",
+    "realtime",
+    "sdk",
+    "typescript",
+    "ai",
+    "storage",
+    "email",
+    "logic-server"
+  ],
+  "author": "AppAtOnce Team",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.0",
+    "bcryptjs": "^2.4.3",
+    "form-data": "^4.0.0",
+    "jsonwebtoken": "^9.0.0",
+    "qs": "^6.14.0",
+    "socket.io-client": "^4.8.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/app-at-once/node-sdk"
+  },
+  "bugs": {
+    "url": "https://github.com/app-at-once/node-sdk/issues"
+  },
+  "homepage": "https://docs.appatonce.com",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ]
+}
