@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AppAtOnce Chatbot Browser Example</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      line-height: 1.6;
+    }
+    .code {
+      background: #f4f4f4;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 20px;
+      margin: 20px 0;
+      font-family: 'Courier New', monospace;
+      overflow-x: auto;
+    }
+    button {
+      background: #0891b2;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin: 5px;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #0e7490;
+    }
+    .section {
+      margin: 40px 0;
+    }
+    .info {
+      background: #e0f2fe;
+      border-left: 4px solid #0891b2;
+      padding: 15px;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>🤖 AppAtOnce Chatbot Browser Example</h1>
+  
+  <div class="info">
+    <strong>Note:</strong> This example demonstrates the browser-only chatbot feature.
+    The chatbot widget is designed specifically for web browsers and cannot be used in Node.js environments.
+  </div>
+
+  <div class="section">
+    <h2>Basic Usage</h2>
+    <p>The simplest way to add the AppAtOnce chatbot to your website:</p>
+    <div class="code">
+// Import from browser-specific export
+import { loadChatbot } from '@appatonce/node-sdk/browser';
+
+// Load chatbot with your API key
+const widget = loadChatbot('your-api-key-here');
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Live Demo</h2>
+    <p>Click the buttons below to control the chatbot:</p>
+    <button onclick="showChatbot()">Show Chatbot</button>
+    <button onclick="hideChatbot()">Hide Chatbot</button>
+    <button onclick="toggleChatbot()">Toggle Chatbot</button>
+    <button onclick="destroyChatbot()">Remove Chatbot</button>
+    <button onclick="loadChatbotAgain()">Load Again</button>
+  </div>
+
+  <div class="section">
+    <h2>Configuration Options</h2>
+    <div class="code">
+const widget = loadChatbot('your-api-key', {
+  position: 'bottom-right',  // or 'bottom-left'
+  theme: {
+    primaryColor: '#0891b2',
+    secondaryColor: '#06b6d4'
+  },
+  baseUrl: 'https://api.appatonce.com',
+  startOpen: false,
+  zIndex: 999999
+});
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>React Integration</h2>
+    <div class="code">
+import { useEffect } from 'react';
+import { loadChatbot } from '@appatonce/node-sdk/browser';
+
+function App() {
+  useEffect(() => {
+    const widget = loadChatbot(process.env.REACT_APP_APPATONCE_API_KEY);
+    
+    // Cleanup on unmount
+    return () => widget.destroy();
+  }, []);
+
+  return &lt;div&gt;Your app content&lt;/div&gt;;
+}
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Vue Integration</h2>
+    <div class="code">
+&lt;script setup&gt;
+import { onMounted, onUnmounted } from 'vue';
+import { loadChatbot } from '@appatonce/node-sdk/browser';
+
+let widget = null;
+
+onMounted(() => {
+  widget = loadChatbot(import.meta.env.VITE_APPATONCE_API_KEY);
+});
+
+onUnmounted(() => {
+  widget?.destroy();
+});
+&lt;/script&gt;
+    </div>
+  </div>
+
+  <script type="module">
+    // For this demo, we'll simulate the loadChatbot function
+    let currentWidget = null;
+
+    // Replace this with your actual API key
+    const API_KEY = 'your-api-key-here';
+
+    // Simulated loadChatbot function (in real usage, import from SDK)
+    function loadChatbot(apiKey, options = {}) {
+      console.log('Loading chatbot with options:', options);
+      
+      // Create a mock widget for demo purposes
+      const button = document.createElement('button');
+      button.style.cssText = `
+        position: fixed;
+        ${options.position === 'bottom-left' ? 'left: 20px' : 'right: 20px'};
+        bottom: 20px;
+        width: 60px;
+        height: 60px;
+        border-radius: 30px;
+        background: ${options.theme?.primaryColor || '#0891b2'};
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        z-index: 999999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 24px;
+      `;
+      button.innerHTML = '💬';
+      button.onclick = () => alert('In a real implementation, this would open the chatbot!');
+      
+      document.body.appendChild(button);
+      
+      return {
+        show: () => button.style.display = 'flex',
+        hide: () => button.style.display = 'none',
+        toggle: () => button.style.display = button.style.display === 'none' ? 'flex' : 'none',
+        destroy: () => button.remove(),
+        isOpen: () => button.style.display !== 'none'
+      };
+    }
+
+    // Demo functions
+    window.showChatbot = () => currentWidget?.show();
+    window.hideChatbot = () => currentWidget?.hide();
+    window.toggleChatbot = () => currentWidget?.toggle();
+    window.destroyChatbot = () => {
+      currentWidget?.destroy();
+      currentWidget = null;
+    };
+    window.loadChatbotAgain = () => {
+      if (currentWidget) {
+        currentWidget.destroy();
+      }
+      currentWidget = loadChatbot(API_KEY, {
+        position: 'bottom-right',
+        theme: {
+          primaryColor: '#0891b2',
+          secondaryColor: '#06b6d4'
+        }
+      });
+    };
+
+    // Load chatbot on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      currentWidget = loadChatbot(API_KEY);
+    });
+  </script>
+</body>
+</html>
