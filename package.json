@@ -1,0 +1,110 @@
+{
+  "name": "@appatonce/node-sdk",
+  "version": "2.0.0",
+  "description": "Official Node.js SDK for AppAtOnce - The revolutionary unified backend platform",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./browser": {
+      "types": "./dist/browser/index.d.ts",
+      "default": "./dist/browser/index.js"
+    },
+    "./dist/browser": {
+      "types": "./dist/browser/index.d.ts",
+      "default": "./dist/browser/index.js"
+    }
+  },
+  "scripts": {
+    "prepare": "npm run build",
+    "build": "tsc && tsc -p tsconfig.browser.json && node scripts/post-build.js",
+    "build:local": "node scripts/build-local.js",
+    "build:watch": "tsc --watch",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:integration": "jest --config jest.integration.config.js",
+    "test:contract": "jest test/contract/contract.test.ts --config jest.integration.config.js",
+    "test:comprehensive": "node tests/comprehensive-sdk-test.js",
+    "test:all": "node scripts/run-tests.js",
+    "test:ci": "npm run build && npm run test:comprehensive && npm test",
+    "test:full": "node scripts/test-with-server.js test",
+    "test:where": "node sdk-test-suite/tests/where-clause-project-test.js",
+    "test:where-only": "node scripts/test-with-server.js where",
+    "test:crud-only": "node scripts/test-with-server.js crud",
+    "test:query-only": "node scripts/test-with-server.js query",
+    "test:server:start": "node scripts/test-with-server.js start",
+    "test:server:stop": "node scripts/test-with-server.js stop",
+    "test:server:cleanup": "node scripts/test-with-server.js cleanup",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix",
+    "check:credentials": "node scripts/check-credentials.js",
+    "appatonce:migrate": "node dist/cli/migrate.js",
+    "setup:hooks": "node scripts/setup-hooks.js",
+    "prepare-disabled": "npm run build",
+    "prepublishOnly": "npm run test:ci",
+    "publish:public": "node scripts/publish-to-public.js",
+    "deploy": "node scripts/hot-deploy.js"
+  },
+  "keywords": [
+    "appatonce",
+    "backend",
+    "database",
+    "realtime",
+    "sdk",
+    "typescript",
+    "ai",
+    "storage",
+    "email",
+    "logic-server"
+  ],
+  "author": "AppAtOnce Team",
+  "license": "MIT",
+  "dependencies": {
+    "@types/archiver": "^6.0.3",
+    "@types/eventsource": "^1.1.15",
+    "archiver": "^7.0.1",
+    "axios": "^1.6.0",
+    "bcryptjs": "^2.4.3",
+    "chalk": "^4.1.2",
+    "commander": "^11.1.0",
+    "dotenv": "^16.0.0",
+    "eventsource": "^4.0.0",
+    "form-data": "^4.0.0",
+    "jsonwebtoken": "^9.0.0",
+    "qs": "^6.14.0",
+    "socket.io-client": "^4.8.1"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/commander": "^2.12.0",
+    "@types/jsonwebtoken": "^9.0.0",
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "chalk": "^4.1.2",
+    "eslint": "^8.0.0",
+    "jest": "^29.0.0",
+    "typescript": "^5.0.0",
+    "yaml": "^2.8.0"
+  },
+  "bin": {
+    "appatonce": "./dist/cli/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/appatonce/node-sdk"
+  },
+  "bugs": {
+    "url": "https://github.com/appatonce/node-sdk/issues"
+  },
+  "homepage": "https://docs.appatonce.com"
+}
